@@ -1,0 +1,66 @@
+<config title="管理员" path_depth="../../" cate="system" module="administrator">
+<tree_data>
+<class name="monitor" title="系统监控">
+ <module name="homepage"  title="系统状态"/>
+ <module name="interface"  title="接口状态"/>
+ <module name="license"  title="许可证"/>
+ <module name="onlineuser"  title="在线用户"/>
+ <module name="userinfo"  title="用户信息中心"/>
+ <module name="appstraffic"  title="应用流量统计"/>
+ <module name="usertraffic"  title="用户流量统计"/>
+ <module name="devtraffic"  title="设备流量统计"/>
+ <module name="devstatus"  title="设备健康统计"/>
+ <module name="session"  title="会话统计"/>
+ <module name="assets"  title="内网资产监控"/>
+</class>
+<class name="network" title="网络管理">
+ <module name="inerface"  title="接口">
+	<tab name="physical"  title="物理接口"/>
+	<tab name="sub"  title="子接口"/>
+	<tab name="bridge"  title="网桥接口"/>
+	<tab name="aggr"  title="聚合接口"/>
+	<tab name="tunnel"  title="隧道接口"/>
+	<tab name="wifi"  title="无线接口"/>
+	<tab name="zone"  title="安全域"/>
+	<tab name="virtual"  title="虚拟网线"/>
+ </module>
+ <module name="mirror"  title="端口镜像">
+ </module>
+ <module name="route"  title="路由">
+	<submod name="tables"  title="路由表"/>
+	<submod name="static"  title="静态路由">
+		<tab name="ipv4"  title="IPv4静态路由"/>
+		<tab name="ipv6"  title="IPv6静态路由"/>
+	</submod>
+	<submod name="policy"  title="策略路由"/>
+	<submod name="isp"  title="ISP路由"/>
+	<submod name="rip"  title="RIP"/>
+	<submod name="ospf"  title="OSPF"/>
+ </module>
+ <module name="nat"  title="NAT">
+	<tab name="src"  title="源NAT"/>
+	<tab name="dst"  title="目的NAT"/>
+	<tab name="static"  title="静态NAT"/>
+	<tab name="pool"  title="地址池"/>
+ </module>
+ <module name="dns"  title="DNS">
+	<tab name="domain"  title="域名管理"/>
+	<tab name="dynamic"  title="动态缓存"/>
+	<tab name="set"  title="特定域名"/>
+	<tab name="trans"  title="DNS透明代理"/>
+	<tab name="server"  title="DNS服务器"/>
+ </module>
+ <module name="dhcpserver"  title="DHCP 服务器">
+ </module>
+</class>
+<class name="object" title="资源管理">
+ <module name="user"  title="用户">
+	<submod name="users"  title="用户"/>
+	<submod name="policy"  title="认证策略"/>
+	<submod name="global"  title="全局配置"/>
+	<submod name="ipmac"  title="IP-MAC 绑定"/>
+	<submod name="syn"  title="用户同步"/>
+ </module>
+</class>
+</tree_data>
+</config>
