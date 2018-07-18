@@ -109,6 +109,61 @@ class IndexAction extends Action {
 		}
 		return;
 	}
+	public function buildall(){
+		$objpath = 'dst_code/';
+		$config_file = 'config_data/webui/tree.xml';
+		$project = 'ui_standard';
+
+		if($fp = fopen($config_file, 'r')) {
+			$template = fread( $fp, filesize($config_file));
+		}
+		fclose($fp);
+
+		$config = $this->xmlToArray($template);
+			echo "<pre>";
+		$treeSrcData = $config[tree_data]['class'];
+
+		$treeData = array();
+		foreach( $treeSrcData as $i=>$_item ){
+			$treeData[$i] = $_item['@attributes'];
+			$treeData[$i]['module'] = $this->getArr($_item['module']);
+		}
+		print_r($treeData);
+
+		F("str/ffun",$treeData);
+	}
+	public function build(){
+		$treeData = F("str/ffun");
+		echo "<pre>";
+		//print_r($treeData);
+		foreach($treeData as $item){
+			$class_name = $item['name'];
+			if($item['module'])
+			foreach($item['module'] as $_item_1){
+				echo $class_name.'_'.$_item_1['name'];
+				if($_item_1['tab'])
+					;
+				if($_item_1['submod'])
+					;
+			}
+
+		}
+		
+	}
+	function getArr($arr){
+		$array = array();
+		if($arr[0]==null)
+			$array[] = $arr['@attributes'];
+		else
+			foreach($arr as $i=>$item){
+				$array[$i] = $item['@attributes'];
+				if($item['submod'])
+					$array[$i]['submod'] = $this->getArr($item['submod']);
+				if($item['tab'])
+					$array[$i]['tab'] = $this->getArr($item['tab']);
+			} 
+		return $array;
+	}
     function xmlToArray($xml)
     {    
         //禁止引用外部xml实体
@@ -116,5 +171,20 @@ class IndexAction extends Action {
         $values = json_decode(json_encode(simplexml_load_string($xml, 'SimpleXMLElement', LIBXML_NOCDATA)), true);        
         return $values;
     }
+	function genTree($items,$pid ="pid") {
+		$map  = [];
+		$tree = [];    
+		foreach ($items as &$it){ $map[$it['id']] = &$it; }  
 
+		//数据的ID名生成新的引用索引树
+		foreach ($items as &$it){
+			$parent = &$map[$it[$pid]];
+			if($parent) {
+				$parent['son'][] = &$it;
+			}else{
+				$tree[] = &$it;
+			}
+		}
+		return $tree;
+	}
 }
