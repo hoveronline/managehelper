@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8"/>
+    <title>流量安全分析系统</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta content="" name="description"/>
+    <meta content="" name="author"/>
+    <link href="css/plugins/bootstrap/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+    <link href="css/plugins/bootstrap/bootstrap-responsive.min.css" rel="stylesheet" type="text/css"/>
+    <link href="css/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+    <link href="css/themes/abt/index.css?v=1519203402" rel="stylesheet" type="text/css"/>
+    <link href="css/themes/abt/style-responsive.css" rel="stylesheet" type="text/css"/>
+    <link href="css/themes/abt/default.css" rel="stylesheet" type="text/css" id="style_color"/>
+</head>
+<body class="page-header-fixed page-sidebar-fixed page-sidebar-no">
+<nav class="header navbar navbar-inverse navbar-fixed-top">
+    <div class="navbar-inner">
+        <div class="container-fluid">
+            <a class="brand" href="./?g=main">
+                <img src="images/abt/default/logo_npv.png?v=1519203402">
+            </a>
+            <div class="navbar hor-menu">
+                <div class="navbar-inner">
+                    <ul class="nav">
+                        <li data-attr="index" class="active"><a href="javascript:void(0);" data-param="page_frame_homepage" class="top_menu"><i class="fa fa-home"></i> 首页</a></li>
+                        <li data-attr="static"><a href="javascript:void(0);" class="top_menu"><i class="fa fa-bar-chart"></i> 统计</a></li>
+                        <li data-attr="data"><a href="javascript:void(0);" class="top_menu"><i class="fa fa-line-chart"></i> 数据中心</a></li>
+                        <li data-attr="safe"><a href="javascript:void(0);" class="top_menu"><i class="fa fa-shield"></i> 安全</a></li>
+                        <li data-attr="log"><a href="javascript:void(0);" class="top_menu"><i class="fa fa-file-text-o"></i> 日志</a></li>
+                        <li data-attr="setting"><a href="javascript:void(0);" class="top_menu"><i class="fa fa-cog"></i> 设置</a></li>
+                        <li data-attr="system"><a href="javascript:void(0);" class="top_menu"><i class="fa fa-wrench"></i> 系统</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <ul class="nav pull-right">
+                <li class="dropdown">
+                    <a href="javascript:void(0);" id="save_config" title="配置保存" class="dropdown-toggle">
+                        <i class="fa fa-save"></i>
+                    </a>
+                </li>
+                <li class="dropdown">
+                    <a href="javascript:void(0);" id="user_info" data-param="sys_admin_show" title="管理员" class="dropdown-toggle">
+                        <i class="fa fa-user"></i>
+                    </a>
+                </li>
+                <li class="dropdown">
+                    <a href="/logout.php" title="退出系统" class="dropdown-toggle">
+                        <i class="fa fa-sign-out"></i>
+                    </a>
+                </li>
+                <li class="dropdown" style="display: none">
+                    <a href="javascript:void(0);" title="全屏" class="dropdown-toggle">
+                        <i class="fa fa-arrows-alt"></i>
+                    </a>
+                </li>
+                <li class="dropdown" id="header_task_bar" style="display: none">
+                    <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown">
+                        <i class="fa fa-tasks"></i>
+                    </a>
+                    <ul class="dropdown-menu extended tasks">
+                        <li>
+                            <p>设备状态</p>
+                        </li>
+                        <li>
+                            <a href="javascript:void(0);">
+							<span class="task">
+							<span class="desc">CPU</span>
+							<span class="percent">30%</span>
+							</span>
+															<span class="progress progress-success progress-striped">
+							<span style="width: 30%;" class="bar"></span>
+							</span>
+														</a>
+													</li>
+													<li>
+														<a href="javascript:void(0);">
+							<span class="task">
+							<span class="desc">硬盘</span>
+							<span class="percent">65%</span>
+							</span>
+															<span class="progress progress-warning progress-striped active">
+							<span style="width: 65%;" class="bar"></span>
+							</span>
+							</a>
+								</li>
+								<li>
+							<a href="javascript:void(0);">
+							<span class="task">
+							<span class="desc">内存</span>
+							<span class="percent">98%</span>
+							</span>
+							<span class="progress progress-danger progress-striped">
+								<span style="width: 98%;" class="bar"></span>
+							</span>
+                            </a>
+                        </li>
+                        <li class="external">
+                            <a href="?g=monitor_health_center_show" target="main-frame">查看详细<i class="m-fa fa-swapright"></i></a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="dropdown user" style="display: none">
+                    <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown">
+                        <span class="username">admin</span>
+                        <i class="fa fa-angle-down"></i>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="?g=sys_admin_show" target="main-frame"><i class="fa fa-user"></i> 资料修改</a></li>
+                        <li class="divider"></li>
+                        <li><a href="javascript:void(0);"><i class="fa fa-lock"></i> 锁屏</a></li>
+                        <li><a href="/logout.php"><i class="fa fa-key"></i> 安全退出</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <!--<a href="javascript:void(0);" class="dropdown-toggle btn-navbar collapsed" data-toggle="collapse" data-target=".nav-collapse">
+                        <i class="fa fa-navicon"></i>
+                    </a>-->
+                    <a href="javascript:void(0);" class="dropdown-toggle btn-navbar collapsed" data-type="mobile">
+                        <i class="fa fa-navicon"></i>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<div class="page-container" style="overflow: hidden">
+    <div class="page-sidebar menu-bar">
+        <ul class="page-sidebar-menu">
+            <li>
+                <div class="sidebar-toggler hidden-phone"></div>
+            </li>
+
+            <!--<li class="sidebar_items static">
+                <a href="javascript:void(0);">
+                    <i class="fa fa-dot-circle-o"></i>
+                    <span class="title">安全</span>
+                    <span class="arrow"></span></a>
+                <ul class="sub-menu">
+                    <li><a href="javascript:void(0);" class="menu" data-param="monitor_apt_detect_show">APT异常检测</a></li>
+                    <li><a href="javascript:void(0);" class="menu" data-param="monitor_botnet_detect_show">外发异常检测</a></li>
+                    <li><a href="javascript:void(0);" class="menu" data-param="monitor_ipdefend_show">网络攻击检测</a></li>
+                    <li><a href="javascript:void(0);" class="menu" data-param="monitor_soft_vulner_show">软件漏洞检测</a></li>
+                </ul>
+            </li>-->
+
+
+            <li class="sidebar_items safe">
+                <a href="javascript:void(0);" class="menu" data-param="monitor_apt_detect_show">
+                    <i class="fa fa-list"></i>
+                    <span class="title">APT异常检测</span>
+                </a>
+            </li>
+            <li class="sidebar_items safe">
+                <a href="javascript:void(0);" class="menu" data-param="monitor_botnet_detect_show">
+                    <i class="fa fa-send"></i>
+                    <span class="title">外发异常检测</span>
+                </a>
+            </li>
+            <li class="sidebar_items safe">
+                <a href="javascript:void(0);" class="menu" data-param="monitor_ipdefend_show">
+                    <i class="fa fa-spinner"></i>
+                    <span class="title">网络攻击检测</span>
+                </a>
+            </li>
+            <li class="sidebar_items safe">
+                <a href="javascript:void(0);" class="menu" data-param="monitor_soft_vulner_show">
+                    <i class="fa fa-vimeo"></i>
+                    <span class="title">软件漏洞检测</span>
+                </a>
+            </li>
+
+            <li class="sidebar_items log">
+                <a href="javascript:void(0);" class="menu" data-param="log_fw_system_show">
+                    <i class="fa fa-list"></i>
+                    <span class="title">事件</span>
+                </a>
+            </li>
+            <li class="sidebar_items log">
+                <a href="javascript:void(0);" class="menu" data-param="log_fw_operate_show">
+                    <i class="fa fa-thumbs-o-up"></i>
+                    <span class="title">操作</span>
+                </a>
+            </li>
+            <li class="sidebar_items log">
+                <a href="javascript:void(0);" class="menu" data-param="log_obj_alarm_config_show">
+                    <i class="fa fa-bell-o"></i>
+                    <span class="title">告警</span>
+                </a>
+            </li>
+            <li class="sidebar_items log">
+                <a href="javascript:void(0);" class="menu" data-param="log_dialing_test_show">
+                    <i class="fa fa-podcast"></i>
+                    <span class="title">拨测</span>
+                </a>
+            </li>
+            <!--<li>
+                <a href="javascript:void(0);" class="menu" data-param="log_tracert_show">探测</a>
+            </li>-->
+            <li class="sidebar_items log">
+                <a href="javascript:void(0);">
+                    <i class="fa fa-globe"></i>
+                    <span class="title">审计</span>
+                    <span class="arrow"></span>
+                </a>
+                <ul class="sub-menu">
+                    <li><a href="javascript:void(0);" class="menu" data-param="log_uac_nbc_dns_show">DNS</a></li>
+                    <li><a href="javascript:void(0);" class="menu" data-param="log_uac_nbc_http_get_show">HTTP GET</a></li>
+                    <li><a href="javascript:void(0);" class="menu" data-param="log_uac_nbc_http_post_show">HTTP POST</a></li>
+                    <li><a href="javascript:void(0);" class="menu" data-param="log_uac_nbc_ftp_show">FTP</a></li>
+                    <li><a href="javascript:void(0);" class="menu" data-param="log_uac_nbc_vpn_show">VPN</a></li>
+                    <li><a href="javascript:void(0);" class="menu" data-param="log_uac_nbc_telnet_show">TELNET</a></li>
+                    <li><a href="javascript:void(0);" class="menu" data-param="log_uac_nbc_account_show">虚拟账号</a></li>
+                    <li><a href="javascript:void(0);" class="menu" data-param="log_uac_nbc_db_show">数据库</a></li>
+                    <li><a href="javascript:void(0);" class="menu" data-param="log_uac_nbc_mail_show">邮件</a></li>
+                    <li><a href="javascript:void(0);" class="menu" data-param="log_uac_nbc_searchengine_show">搜索引擎</a></li>
+                    <li><a href="javascript:void(0);" class="menu" data-param="log_uac_nbc_mobilepos_show">移动定位</a></li>
+                </ul>
+            </li>
+            <li class="sidebar_items log">
+                <a href="javascript:void(0);">
+                    <i class="fa fa-dot-circle-o"></i>
+                    <span class="title">安全</span>
+                    <span class="arrow"></span></a>
+                <ul class="sub-menu">
+                    <li><a href="javascript:void(0);" class="menu" data-param="log_apt_detect_show">APT异常检测</a></li>
+                    <li><a href="javascript:void(0);" class="menu" data-param="log_botnet_detect_show">外发异常检测</a></li>
+                    <li><a href="javascript:void(0);" class="menu" data-param="log_security_show">网络攻击检测</a></li>
+                    <li><a href="javascript:void(0);" class="menu" data-param="log_soft_vulner_detail_show">软件漏洞检测</a></li>
+                </ul>
+            </li>
+            <li class="sidebar_items static">
+                <a href="javascript:void(0);">
+                    <i class="fa fa-bell-o"></i>
+                    <span class="title">设备</span>
+                    <span class="arrow"></span>
+                </a>
+                <ul class="sub-menu">
+                    <li><a href="javascript:void(0);" class="menu" data-param="monitor_interface_flow">流量</a></li>
+                    <li><a href="javascript:void(0);" class="menu" data-param="monitor_interface_packet_distribution">包分布</a></li>
+                    <li><a href="javascript:void(0);" class="menu" data-param="monitor_health_center_show">状态</a></li>
+                </ul>
+            </li>
+            <li class="sidebar_items static">
+                <a href="javascript:void(0);" class="menu" data-param="monitor_devstate_show">
+                    <i class="fa fa-plug"></i>
+                    <span class="title">接口</span>
+                </a>
+            </li>
+            <li class="sidebar_items static">
+                <a href="javascript:void(0);">
+                    <i class="fa fa-user-o"></i>
+                    <span class="title">用户</span>
+                    <span class="arrow"></span>
+                </a>
+                <ul class="sub-menu">
+                    <li><a href="javascript:void(0);" class="menu" data-param="monitor_users_online_show">在线用户</a></li>
+                    <li><a href="javascript:void(0);" class="menu" data-param="monitor_users_statistics_show">用户流量</a></li>
+                    <li><a href="javascript:void(0);" class="menu" data-param="monitor_users_realtime_show">实时流量</a></li>
+                    <li><a href="javascript:void(0);" class="menu" data-param="monitor_usergrps_show">用户组流量</a></li>
+                    <li><a href="javascript:void(0);" class="menu" data-param="monitor_usergrps_realtime_show">用户组实时</a></li>
+                    <li><a href="javascript:void(0);" class="menu" data-param="nbc_ucc_info_show">用户中心</a></li>
+                </ul>
+            </li>
+            <li class="sidebar_items static">
+                <a href="javascript:void(0);">
+                    <i class="fa fa-cube"></i>
+                    <span class="title">应用</span>
+                    <span class="arrow"></span>
+                </a>
+                <ul class="sub-menu">
+                    <li><a href="javascript:void(0);" class="menu" data-param="monitor_apps_statistics_show">流量统计</a></li>
+                    <li><a href="javascript:void(0);" class="menu" data-param="monitor_apps_realtime_show">实时流量</a></li>
+                    <li><a href="javascript:void(0);" class="menu" data-param="monitor_apps_unknown_show">未知应用</a></li>
+                </ul>
+            </li>
+            <li class="sidebar_items static">
+                <a href="javascript:void(0);">
+                    <i class="fa fa-server"></i>
+                    <span class="title">服务器</span>
+                    <span class="arrow"></span>
+                </a>
+                <ul class="sub-menu">
+                    <li><a href="javascript:void(0);" class="menu" data-param="monitor_servers_statistics_show">流量统计</a></li>
+                    <li><a href="javascript:void(0);" class="menu" data-param="monitor_servers_realtime_show">实时流量</a></li>
+                    <li><a href="javascript:void(0);" class="menu" data-param="monitor_servers_to_server_show">访问关系</a></li>
+                </ul>
+            </li>
+            <li class="sidebar_items static">
+                <a href="javascript:void(0);">
+                    <i class="fa fa-quora"></i>
+                    <span class="title">质量</span>
+                    <span class="arrow"></span></a>
+                <ul class="sub-menu">
+                    <li><a href="javascript:void(0);" class="menu" data-param="monitor_abnormal_show">异常统计</a></li>
+                    <li><a href="javascript:void(0);" class="menu" data-param="monitor_delay_show">网络时延</a></li>
+                    <li><a href="javascript:void(0);" class="menu" data-param="monitor_apps_delay_show">应用时延</a></li>
+                </ul>
+            </li>
+            <li class="sidebar_items static">
+                <a href="javascript:void(0);">
+                    <i class="fa fa-exclamation-triangle"></i>
+                    <span class="title">监控</span>
+                    <span class="arrow"></span></a>
+                <ul class="sub-menu">
+                    <li><a href="javascript:void(0);" class="menu" data-param="sec_session_monitor_show">会话监控</a></li>
+                    <li><a href="javascript:void(0);" class="menu" data-param="nbc_user_share_monitor_show">共享监控</a></li>
+                    <li><a href="javascript:void(0);" class="menu" data-param="monitor_dialing_test_show">拨测监控</a></li>
+                </ul>
+            </li>
+            <!--<li class="sidebar_items static">
+                <a href="javascript:void(0);" class="menu" data-param="dac_realtime_session_delay">
+                    <i class="fa fa-clock-o"></i>
+                    <span class="title">会话统计</span>
+                </a>
+            </li>-->
+            <!--<li class="sidebar_items static">
+                <a href="javascript:void(0);" class="menu" data-param="sec_session_monitor_show">
+                    <i class="fa fa-commenting-o"></i>
+                    <span class="title">会话监控</span>
+                </a>
+            </li>
+            <li class="sidebar_items static">
+                <a href="javascript:void(0);" class="menu" data-param="nbc_user_share_monitor_show">
+                    <i class="fa fa-share-alt"></i>
+                    <span class="title">共享监控</span>
+                </a>
+            </li>
+            <li class="sidebar_items static">
+                <a href="javascript:void(0);" class="menu" data-param="monitor_dialing_test_show">
+                    <i class="fa fa-rocket"></i>
+                    <span class="title">拨测监控</span>
+                </a>
+            </li>-->
+            <li class="sidebar_items static">
+                <a href="javascript:void(0);">
+                    <i class="fa fa-crosshairs"></i>
+                    <span class="title">目标</span>
+                    <span class="arrow"></span></a>
+                <ul class="sub-menu">
+                    <li><a href="javascript:void(0);" class="menu" data-param="monitor_objective_show">目标地区</a></li>
+                    <li><a href="javascript:void(0);" class="menu" data-param="monitor_objective_port_show">目标端口</a></li>
+                </ul>
+            </li>
+            <li class="sidebar_items static">
+                <a href="javascript:void(0);" class="menu" data-param="virtual_link_identify_show">
+                    <i class="fa fa-link"></i>
+                    <span class="title">虚链路</span>
+                </a>
+            </li>
+
+            <li class="sidebar_items static">
+                <a href="javascript:void(0);" class="menu" data-param="log_behavior_center_show">
+                    <i class="fa fa-bullseye"></i>
+                    <span class="title">行为中心</span>
+                </a>
+            </li>
+
+            <li class="sidebar_items data">
+                <a href="javascript:void(0);" class="menu" data-param="dac_browser_show">
+                    <i class="fa fa-internet-explorer"></i>
+                    <span class="title">浏览器</span>
+                </a>
+            </li>
+            <li class="sidebar_items data">
+                <a href="javascript:void(0);" class="menu" data-param="dac_operate_system_show">
+                    <i class="fa fa-windows"></i>
+                    <span class="title">操作系统</span>
+                </a>
+            </li>
+            <li class="sidebar_items data">
+                <a href="javascript:void(0);">
+                    <i class="fa fa-database"></i>
+                    <span class="title">历史统计</span>
+                    <span class="arrow"></span>
+                </a>
+                <ul class="sub-menu">
+                    <li><a href="javascript:void(0);" class="menu" data-param="dac_history_app">应用</a></li>
+                    <li><a href="javascript:void(0);" class="menu" data-param="dac_history_src_ip">IP地址</a></li>
+                    <li><a href="javascript:void(0);" class="menu" data-param="dac_history_dst_area">国家/地区</a></li>
+                    <li><a href="javascript:void(0);" class="menu" data-param="dac_history_ip_link">通信对</a></li>
+                </ul>
+            </li>
+            <li class="sidebar_items data">
+                <a href="javascript:void(0);" class="menu" data-param="dac_wanlink_show">
+                    <i class="fa fa-line-chart"></i>
+                    <span class="title">流量状态</span>
+                </a>
+            </li>
+
+            <li class="sidebar_items setting">
+                <a href="javascript:void(0);" class="menu" data-param="net_interface_show">
+                    <i class="fa fa-plug"></i>
+                    <span class="title">接口</span>
+                </a>
+            </li>
+            <li class="sidebar_items setting">
+                <a href="javascript:void(0);" class="menu" data-param="aaa_user_show">
+                    <i class="fa fa-users"></i>
+                    <span class="title">用户</span>
+                </a>
+            </li>
+            <li class="sidebar_items setting">
+                <a href="javascript:void(0);" class="menu" data-param="obj_app_show">
+                    <i class="fa fa-cubes"></i>
+                    <span class="title">应用</span>
+                </a>
+            </li>
+            <li class="sidebar_items setting">
+                <a href="javascript:void(0);" class="menu" data-param="monitor_servers_show">
+                    <i class="fa fa-server"></i>
+                    <span class="title">服务器</span>
+                </a>
+            </li>
+            <li class="sidebar_items setting">
+                <a href="javascript:void(0);" class="menu" data-param="port_mirror_show">
+                    <i class="fa fa-adjust"></i>
+                    <span class="title">端口镜像</span>
+                </a>
+            </li>
+            <li class="sidebar_items setting">
+                <a href="javascript:void(0);" class="menu" data-param="log_setting_config">
+                    <i class="fa fa-list"></i>
+                    <span class="title">日志配置</span>
+                </a>
+            </li>
+            <li class="sidebar_items setting">
+                <a href="javascript:void(0);" class="menu" data-param="report_task_show">
+                    <i class="fa fa-file-text-o"></i>
+                    <span class="title">报表配置</span>
+                </a>
+            </li>
+            <li class="sidebar_items setting">
+                <a href="javascript:void(0);" class="menu" data-param="obj_alarm_show">
+                    <i class="fa fa-bell"></i>
+                    <span class="title">告警通知</span>
+                </a>
+            </li>
+            <!--<li class="sidebar_items setting">
+                <a href="javascript:void(0);" class="menu" data-param="nbc_user_share_monitor_edit">
+                    <i class="fa fa-share-alt"></i>
+                    <span class="title">共享监控</span>
+                </a>
+            </li>
+            <li class="sidebar_items setting">
+                <a href="javascript:void(0);" class="menu" data-param="monitor_dialing_test_config">
+                    <i class="fa fa-rocket"></i>
+                    <span class="title">拨测监控</span>
+                </a>
+            </li>
+            <li class="sidebar_items setting">
+                <a href="javascript:void(0);" class="menu" data-param="sec_ad_scan_add">
+                    <i class="fa fa-exclamation-triangle"></i>
+                    <span class="title">安全监控</span>
+                </a>
+            </li>-->
+            <li class="sidebar_items setting">
+                <a href="javascript:void(0);">
+                    <i class="fa fa-exclamation-triangle"></i>
+                    <span class="title">监控</span>
+                    <span class="arrow"></span>
+                </a>
+                <ul class="sub-menu">
+                    <li><a href="javascript:void(0);" class="menu" data-param="nbc_user_share_monitor_edit">共享监控</a></li>
+                    <li><a href="javascript:void(0);" class="menu" data-param="monitor_dialing_test_config">拨测监控</a></li>
+                    <li><a href="javascript:void(0);" class="menu" data-param="sec_ad_scan_add">安全监控</a></li>
+                    <!--<li><a href="javascript:void(0);" class="menu" data-param="sys_service_quality_show">主动监控</a></li>-->
+                </ul>
+            </li>
+            <!--<li><a href="javascript:void(0);" class="menu" data-param="sec_ad_scan_add">网络攻击</a></li>-->
+            <!--<li><a href="javascript:void(0);" class="menu" data-param="report_task_show">报表任务</a></li>-->
+            <li class="sidebar_items setting">
+                <a href="javascript:void(0);">
+                    <i class="fa fa-link"></i>
+                    <span class="title">虚链路</span>
+                    <span class="arrow"></span>
+                </a>
+                <ul class="sub-menu">
+                    <li><a href="javascript:void(0);" class="menu" data-param="obj_virtual_link_config_show">虚链路配置</a></li>
+                    <li><a href="javascript:void(0);" class="menu" data-param="virtual_link_interface_config_show">出入接口配置</a></li>
+                </ul>
+            </li>
+
+
+            <li class="sidebar_items system">
+                <a href="javascript:void(0);" class="menu" data-param="sys_admin_show">
+                    <i class="fa fa-user-circle"></i>
+                    <span class="title">管理员</span>
+                </a>
+            </li>
+            <li class="sidebar_items system">
+                <a href="javascript:void(0);">
+                    <i class="fa fa-drivers-license"></i>
+                    <span class="title">配置管理</span>
+                    <span class="arrow"></span>
+                </a>
+                <ul class="sub-menu">
+                    <li><a href="javascript:void(0);" class="menu" data-param="sys_time_show">时间设定</a></li>
+                    <li><a href="javascript:void(0);" class="menu" data-param="sys_update_show">系统升级</a></li>
+                    <li><a href="javascript:void(0);" class="menu" data-param="sys_shutdown_show">系统重启</a></li>
+                    <li><a href="javascript:void(0);" class="menu" data-param="sys_restore_show">配置文件</a></li>
+                </ul>
+            </li>
+            <li class="sidebar_items system">
+                <a href="javascript:void(0);" class="menu" data-param="net_snmp_show">
+                    <i class="fa fa-sitemap"></i>
+                    <span class="title">SNMP</span>
+                </a>
+            </li>
+            <li class="sidebar_items system">
+                <a href="javascript:void(0);">
+                    <i class="fa fa-cogs"></i>
+                    <span class="title">系统维护</span>
+                    <span class="arrow"></span>
+                </a>
+                <ul class="sub-menu">
+                    <li><a href="javascript:void(0);" class="menu" data-param="sys_diag_ping_show">系统诊断工具</a></li>
+                    <li><a href="javascript:void(0);" class="menu" data-param="sys_dia_data_collect_show">信息收集</a></li>
+                    <li><a href="javascript:void(0);" class="menu" data-param="sys_capture_config">抓包工具</a></li>
+                </ul>
+            </li>
+            <li class="sidebar_items system">
+                <a href="javascript:void(0);" class="menu" data-param="sys_license_show">
+                    <i class="fa fa-drivers-license-o"></i>
+                    <span class="title">授权管理</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+    <div class="page-content" id="page-content">
+        <div class="page-content-body"></div>
+    </div>
+</div>
+
+<div class="modal fade bs-example-modal-sm" id="config_box" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="exampleModalLabel">系统提示信息</h4>
+            </div>
+            <div class="modal-body" id="modal-body"></div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="config_sumbit_btn" style="font-size: 12px; font-family: 'Microsoft YaHei', '微软雅黑'">保存配置</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal" style="font-size: 12px;font-family: 'Microsoft YaHei', '微软雅黑'">关闭</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="js/jquerylib/jquery-1.10.1.min.js" type="text/javascript"></script>
+<script src="js/libs/jquery-migrate-1.2.1.min.js" type="text/javascript"></script>
+<script src="js/libs/jquery-ui-1.10.1.custom.min.js" type="text/javascript"></script>
+<script src="js/abt/bootstrap.min.js" type="text/javascript"></script>
+<!--[if lt IE 9]>
+<script src="js/abt/respond.min.js"></script>
+<![endif]-->
+<script src="js/libs/jquery.slimscroll.min.js" type="text/javascript"></script>
+<script src="js/libs/jquery.cookie.min.js" type="text/javascript"></script>
+
+<script src="js/abt/app.js" type="text/javascript"></script>
+<script>
+    jQuery(document).ready(function () {
+        App.init();
+        App.StateInterVal();
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,20 @@
+<config title="aa" path_depth="../../" code="php" >
+<tab>
+<items title=""/>
+<items title=""/>
+<items/>
+<items/>
+</tab>
+<datagrid type="tree">
+<item field="name"  title="名称" width="10" />
+<item field="action" title="动作"  width="5" />
+<item field="inInterfaceGroupRefs"  title="源域/接口" width="10"/>
+<item field="srcip"  title="源地址" width="20"/>
+<item field="outInterfaceGroupRefs"  title="目的域/接口" width="10"/>
+<item field="dstip"  title="目的地址" width="20"/>
+<item field="service"  title="服务" width="15"/>
+<item field="enable"  title="启用" width="5"/>
+</datagrid>
+<toolbar>
+</toolbar>
+</config>

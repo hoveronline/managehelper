@@ -1,0 +1,1 @@
+<?php if (!defined('THINK_PATH')) exit();?><p>生成Html成功！./Index/Html/test/html/</p>

@@ -1,0 +1,5 @@
+[<for start="1" end="10" name="a">
+
+{<foreach name="data" item="vo" key="k" ><{$vo.field}>:<{$vo.demo_data|get_rand=0,300}>,</foreach>}
+<{$Newline}>
+</for>]

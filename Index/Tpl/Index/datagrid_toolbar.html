@@ -1,0 +1,303 @@
+<html>
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE8" content="ie=edge"/>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-store, must-revalidate">
+    <meta http-equiv="expires" content="Wed, 26 Feb 1997 08:21:57 GMT">
+    <meta http-equiv="expires" content="0">
+    <script src="js/jquerylib/jquery-1.12.4.min.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        $.includePath = './js/modules/';
+        var language_en = {},language_cn = {},loadingMessage = '数据加载中...',auth_level = '65535',def_section = 50000,log_refresh_rate = 8000;
+        if(auth_level == '')
+            top.location='/logout.php';
+    </script>
+    <script src="js/localize/language.js?v=4.2.0109" type="text/javascript"></script>
+    <script src="js/localize/error_msg.js?v=3.0.0120" type="text/javascript"></script>
+    <script src="js/easyui-1.5.1/jquery.easyui.min.js" type="text/javascript"></script>
+    
+    <script src="js/easyui-1.5.1/locale/easyui-lang-zh_CN.js" type="text/javascript"></script>
+    <script src="js/easyui-1.5.1/easyloader.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        <!--       
+        var lang = language_cn,lang_error = error_msg_cn;        
+        -->
+    </script>
+    <script src="js/function/function.js?v=4.2.1201" type="text/javascript"></script>
+    <script src="js/abt/jquery.Easyui.default.js" type="text/javascript"></script>
+    <script src="js/abt/jquery.extend.js" type="text/javascript"></script>
+    <script src="js/abt/jquery.Easyui.validate.js" type="text/javascript"></script>
+    <link href="./js/easyui-1.5.1/themes/sapling/easyui.css" rel="stylesheet" type="text/css">
+    <link href="./css/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+    <link href="./css/themes/abt/common.css" rel="stylesheet" type="text/css"/>
+    <link href="./css/themes/abt/custom.css" rel="stylesheet" type="text/css"/>
+    <link href="./css/themes/abt/style1.css?v=3.0.1215" rel="stylesheet" type="text/css">
+</head>
+<SCRIPT LANGUAGE="JavaScript">
+    <!--
+    if('' ==1){
+        if('' != 'account'){
+            var toolbar_sys_admin = "";
+        }else{
+            var toolbar_sys_admin = [{id:'btn_add',text:'新建',iconCls:'fa fa-plus',handler:but_add_handle},{id:'btn_delete',text:'删除',iconCls:'fa fa-remove',handler:but_delete_handle}];
+        }
+    }else{
+        var toolbar_sys_admin = [{id:'btn_add',text:'新建',iconCls:'fa fa-plus',handler:but_add_handle},{id:'btn_delete',text:'删除',iconCls:'fa fa-remove',handler:but_delete_handle}];
+    }
+
+    $(function(){
+        $('#sys_admin_list').datagrid({
+            border:false,
+            fit:true,
+            pagination:false,
+            fitColumns:true,
+            singleSelect:false,
+            selectOnCheck:true,
+            checkOnSelect:true,
+            toolbar:toolbar_sys_admin,
+            onClickRow:click_row_sys_admin,
+            onSelectAll:ckdel,
+onLoadSuccess:ckdel,
+            rownumbers:true,
+            url:"?g=sys_admin_jsondata",
+            loadFilter: function(data){
+                var res={
+                    total:data.page.total,
+                    rows:[]
+                };
+                if (data.group){
+                    res.rows = data.group;
+                } else {
+                    res = data;
+                }
+                return res;
+            },
+            columns:[[
+                {field:'ck', checkbox:true},
+                {field:'name', title:'用户名',formatter:format_name,width:'15%'},
+                {field:'authority_table_name', title:'角色',formatter:format_authority_table_name,width:'15%'},
+                {field:'type', title:'认证类型',formatter:format_type,width:'15%'},
+                {field:'permit_ip1', title:'管理地址',formatter:format_permit_ip,width:'15%'},
+                {field:'desc', title:'描述',formatter:format_desc,width:'25%'},
+                {field:'no_delete', hidden:true},
+                {field:'index', title:'操作',formatter:format_operation,width:'10%'},
+            ]],
+            onSelect:function(rowIndex,rowData){
+                if(rowData.no_delete==1){
+                    $(this).datagrid('uncheckRow', rowIndex).datagrid('unselectRow', rowIndex);
+}
+}
+        })
+    });
+
+/*buttons handle*/
+    function but_add_handle(name){
+        if(typeof name != 'object'){
+            var title = '编辑管理员';
+            var url = '?g=sys_admin_edit&name='+name;
+        }else{
+            var title = '新增管理员';
+            var url = '?g=sys_admin_add';
+}
+        $.Abt.greatDialog(function(e){
+            $.Abt.dialog(e,{
+                title:title,
+                width:500,
+                height:470,
+                href:url,
+                buttons:[{
+                    text:'提交保存',
+                    iconCls:'fa fa-check',
+                    handler:function(){
+                        sys_admin.form_submit(e);
+                    }
+                },{
+                    text:'关闭',
+                    iconCls:'fa fa-close',
+                    handler:function(){
+                        e.dialog('close');
+                    }
+                }],
+            })
+        });
+    }
+
+    function but_delete_handle(){
+        if(auth_level != 65535){
+            permit_Tips();
+            return false;
+        }
+        var select = $("#sys_admin_list").datagrid('getSelections');
+        if(select.length==0){
+            $.messager.alert('系统提示',lang.label_del_select_options,'warning');
+            return;
+        };
+        console.log(select);
+        return;
+        $.messager.confirm('系统提示',lang.label_del_confirm,function(r) {
+            if (r) {
+                $.ajax({
+                    url: '?g=sys_admin_delete&t=' + Math.random(),
+                    type: 'POST',
+                    data:{data:select,submit_post:'sys_admin_delete'},
+                    dataType:'json',
+                    beforeSend:function(){
+                        $.messager.progress();
+                    },
+                    success: function (data) {
+                        $.messager.progress('close');
+                        $('#sys_admin_list').datagrid('reload');
+                        $.messager.show({
+                            title:'系统提示',
+                            msg:data.str,
+                            timeout:5000,
+                            showType:'slide'
+                        });
+                    }
+                });
+            }
+        });
+    }
+
+/*format column*/
+    function ckdel() {
+        //var ckc = $("td[field='name'] div");
+        var list_obj = $('#sys_admin_list');
+        var ckc = list_obj.prev().find('.datagrid-body tr')
+        $.each(ckc,function(i, node) {
+            var temp_ref = $(node).children('td[field="no_delete"]').children('div').html();
+            if (temp_ref == 1) {
+                list_obj.datagrid('uncheckRow', i).datagrid('unselectRow', i);
+                $(node).children("td[field='ck']").children("div").empty();
+            }
+        });
+    }
+
+    function format_index(value){return value}
+    function format_name(value){return value}
+    function format_authority_table_name(value,row,index){
+        if(''==0){
+            if(value == "admin"){
+                return lang.tip_sys_admin_authority_table_name_1;
+            }else{
+                return lang.tip_sys_admin_authority_table_name_2;
+            }
+        }else{
+            switch(row.name){
+                case 'account':
+                    return '账号管理员';
+                    break;
+                case 'authority':
+                    return '权限管理员';
+                    break;
+                case 'audit':
+                    return '审核员';
+                    break;
+                default:
+                    return '系统管理员';
+                    break;
+            }
+        }
+    }
+    function format_type(value){
+        switch(value){
+            case '1':
+                return lang.sys_admin_type_1;
+                break;
+            case '2':
+                return lang.sys_admin_type_2;
+                break;
+            case '3':
+                return lang.sys_admin_type_3;
+                break;
+        }
+    }
+    function format_desc(value){return value}
+    function format_permit_ip(value,data){
+        var result = '';
+        if(data.permit_ip1)
+            result +=data.permit_ip1 + ', ';
+        if(data.permit_ip2)
+            result +=data.permit_ip2 + ', ';
+        if(data.permit_ip3)
+            result +=data.permit_ip3 + ',';
+        return filter_str_lastSymbol(result);
+    }
+    function format_operation(value,data){
+        var mode = '';
+        var username = '';
+        if(mode == 1){
+            if(data.name == username){
+                return '<a class="row_btn" onclick="but_add_handle(\''+ data.name +'\')" href="javascript:void(0);"><i class="fa fa-pencil-square-o"></i></a>';
+            }
+            else{
+                return "";
+            }
+        }else{
+            if(data.no_delete == "1"){
+                return '<a class="row_btn" onclick="but_add_handle(\''+ data.name +'\')" href="javascript:void(0);"><i class="fa fa-pencil-square-o"></i></a>';
+            }else{
+
+
+                return '<a class="row_btn" onclick="but_add_handle(\''+ data.name +'\')" href="javascript:void(0);"><i class="fa fa-pencil-square-o"></i></a> <a class="row_btn" href="javascript:void(0);" onclick="confirm_del(\''+ data.name +'\');"><i class="fa fa-trash"></i></a>';
+            }
+        }
+
+    }
+
+    function click_row_sys_admin(){
+
+    }
+    function confirm_del(name)
+    {
+        var msg = lang.sys_del_confirm + name+'？';
+        $.messager.confirm('系统提示',msg,function(r){
+            if (r){
+                $.messager.progress();
+                $.ajax({
+                    url: '?g=sys_admin_delete&t=' + Math.random(),
+                    type: 'GET',
+                    data:{
+                        name:name,
+                        ajax:1,
+                    },
+                    timeout: 30000,
+dataType:'json',
+                    error: ajaxErrorLoad,
+                    success: function(retdata) {
+                        $.messager.progress('close');
+                        if(retdata.code==0){
+                            $.messager.show({
+                                title:'系统提示',
+                                msg:retdata.str,
+                                timeout:5000,
+                                showType:'slide'
+                            });
+}else{
+                            $.messager.alert('系统提示',retdata.str,'warning');
+}
+                        $('#sys_admin_list').datagrid('reload');
+                    }
+                });
+            }
+        });
+    }
+    //-->
+</SCRIPT>
+<body>
+<div class="easyui-tabs main-tabs" data-options="fit:true,border:false">
+<div title="管理员" data-options="fit:true,border:false" style="display: none">
+<table id="sys_admin_list" ></table>
+<div id="sys_admin_list_tools">
+<a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'fa fa-plus',plain:true">新建</a>
+<a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'fa fa-pencil',plain:true">编辑</a>
+</div>
+</div>
+<div title="管理设定" data-options="href:'?g=sys_config_show'"></div>
+<div title="在线信息" data-options="href:'?g=sys_admin_online_show'"></div>
+<div title="阻断用户" data-options="href:'?g=sys_admin_block_show'"></div>
+</div>
+</body>
+</HTML> 
+<!-- generate by hover ui system -->

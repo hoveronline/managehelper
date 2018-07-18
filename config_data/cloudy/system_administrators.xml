@@ -1,0 +1,30 @@
+<config title="管理员" path_depth="../../" cate="system" module="administrator">
+<tab>
+<items title="管理员" cur="1"/>
+<items title="管理设定"/>
+<items title="在线信息"/>
+<items title="阻断用户"/>
+</tab>
+
+<datagrid type="dategrid_toolbar">
+<item field='name' title='用户名' width='15'/>
+<item field='authority_table_name' title='角色' width='15'/>
+<item field='type' title='认证类型' width='15'/>
+<item field='permit_ip1' title='管理地址' width='15'/>
+<item field='desc' title='描述' width='25'/>
+</datagrid>
+
+<toolbar default="true" simple_search="true">
+</toolbar>
+
+<conf_win>
+<config_level_1>
+<item label="用户名" name="username" type="username"/>
+<item label="描述" name="description" type="description"/>
+<item label="密码" name="password" type="password" length="8-128"/>
+<item label="确认密码" name="confirm" type="password" length="8-128"/>
+<item label="认证类型" name="auth_type" type="radio" value="本地|RADIUS|LDAP"/>
+<item label="角色" name="role" type="combobox" long="middle"/>
+</config_level_1>
+</conf_win>
+</config>

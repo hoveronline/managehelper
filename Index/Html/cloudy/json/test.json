@@ -1,0 +1,10 @@
+[{name:IPS89603,brand:'太极',admin_ip:'10.8.7.101',authorization:3,cpu:41,mem:28,storage:811,create_time:2018-7-7,}
+{name:虚拟防火墙NFV66975,brand:'太极',admin_ip:'10.8.149.94',authorization:2,cpu:61,mem:6,storage:674,create_time:2018-9-15,}
+{name:IPS99574,brand:'太极',admin_ip:'10.8.135.114',authorization:3,cpu:57,mem:22,storage:719,create_time:2018-10-5,}
+{name:IPS96554,brand:'太极',admin_ip:'10.8.92.230',authorization:2,cpu:59,mem:13,storage:531,create_time:2018-11-21,}
+{name:IPS34025,brand:'太极',admin_ip:'10.8.109.129',authorization:2,cpu:26,mem:18,storage:669,create_time:2018-1-7,}
+{name:IPS30223,brand:'太极',admin_ip:'10.8.209.110',authorization:3,cpu:17,mem:16,storage:722,create_time:2018-3-15,}
+{name:虚拟防火墙NFV81946,brand:'太极',admin_ip:'10.8.49.250',authorization:3,cpu:58,mem:3,storage:924,create_time:2018-10-27,}
+{name:虚拟防火墙NFV32524,brand:'太极',admin_ip:'10.8.66.90',authorization:2,cpu:46,mem:8,storage:931,create_time:2018-2-20,}
+{name:虚拟防火墙NFV88275,brand:'安博通',admin_ip:'10.8.209.215',authorization:3,cpu:57,mem:7,storage:751,create_time:2018-5-15,}
+]

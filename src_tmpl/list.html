@@ -1,0 +1,65 @@
+{template header}
+<BODY>
+ <div id="Panel-1" class="hui-Panel"> 
+  <div id="Header-1" class="hui-Panel-header tab_bg">
+	<a href="?g=net_arp_static_show" >{lang tb_net_arp_static_show}</a>
+	<a href="?g=net_arp_dynamic_show" >{lang tb_net_arp_dynamic_show}</a>
+	<a href="?g=net_mac_show" class="cur">{lang tb_net_mac_show}</a>
+	<a href="?g=net_mac_dynamic_show" >{lang tb_net_mac_dynamic_show}</a>
+  </div>
+  <div id="body" class="hui-Panel-body">  
+<div id="button_area" class="toolbar">
+ <div class="menu_area">
+  <ul>
+<li><a id="but_net_mac_add"  name="but_add" class="menu_area_one" href="javascript:void(0)" onclick="window.location='?g=net_mac_add'"><img src="images/{PATH}/icons/icon_add.gif"><span>{lang but_add}</span></a></li>
+<li><a id="but_net_mac_clean"  name="but_clean" class="menu_area_one" href="javascript:void(0)" onclick="window.location='?g=net_mac_clean'"><img src="images/{PATH}/icons/icon_add.gif"><span>{lang but_clean}</span></a></li>
+  </ul>
+ </div>
+</div><!-- button_area-1 -->
+
+<div id="net_mac_table_box" class="list-Box">
+<table id="net_mac_table" class="css_table">
+ <tbody>
+  <tr class="th_header" id="for_tb_title">  
+<th class="th_header_1"> {tb_index}</td>
+<th class="th_header"> {lang tb_net_mac_mac}</td>
+<th class="th_header"> {lang tb_net_mac_vlanid}</td>
+<th class="th_header"> {lang tb_net_mac_interface}</td>
+<th class="th_header"> {lang tb_net_mac_age}</td>
+<th class="th_header_2"> {lang tb_operation}</td>
+  </tr>
+
+<volist name="list" id="vo">
+{$vo.id}:{$vo.name}
+</volist>
+
+ </tbody>
+</table>
+</div>
+  </div>
+ </div>  
+<SCRIPT LANGUAGE="JavaScript">
+/*set table row function and css*/
+setTableRowCss("net_mac_table",0)
+
+/*set table page link*/
+setPageLink("net_mac_table_box", $pageAttr );
+
+/*show success message*/
+<!--{if $successMsg}-->
+showSuccessMsg("$successMsg");
+<!--{/if}-->
+
+/*load module js*/
+$.include(['net_mac.js']);
+
+/*
+* custom code
+* author:
+* time:
+*/
+
+//-->
+</SCRIPT>
+ </BODY>
+</HTML>
